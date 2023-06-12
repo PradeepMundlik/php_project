@@ -2,6 +2,9 @@
 <?php
 require_once "config.php";
 
+error_reporting( E_ALL );
+ini_set( "display_errors", 1 ); 
+
 $username = $password = $confirm_password = $email = $gender = $address = $zip = "";
 $username_err = $password_err = $confirm_password_err = "";
 
@@ -12,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         $username_err = "Username cannot be blank";
     }
     else{
-        $sql = "SELECT userid FROM users WHERE username = ?";
+        $sql = "SELECT username FROM users WHERE username = ?";
         $stmt = mysqli_prepare($conn, $sql);
         if($stmt)
         {
@@ -66,12 +69,11 @@ echo $confirm_password_err;
 // If there were no errors, go ahead and insert into the database
 if(empty($username_err) && empty($password_err) && empty($confirm_password_err))
 {
-    $sql = "INSERT INTO `users` ( `username`, `email`, `address`, `gender`, `password`, `zip`) VALUES ('?', '?', '?', '?', '?', '?');";
+    $sql = "INSERT INTO `users` ( `username`, `email`, `address`, `gender`, `password`, `zip`) VALUES (?,?,?,?,?,?);";
     $stmt = mysqli_prepare($conn, $sql);
-    echo $stmt;
+    // echo $stmt;
     if ($stmt)
     {
-        echo $stmt;
         mysqli_stmt_bind_param($stmt, "ssssss", $param_username, $email, $address, $gender, $param_password ,$zip);
         
         // Set these parameters
@@ -93,6 +95,9 @@ if(empty($username_err) && empty($password_err) && empty($confirm_password_err))
         }
     }
     mysqli_stmt_close($stmt);
+}
+else{
+    echo $username_err." ".$password_err." ".$confirm_password_err."<br>";
 }
 mysqli_close($conn);
 }

@@ -1,4 +1,8 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 //This script will handle login
 session_start();
 
@@ -44,8 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         echo $_SESSION["username"];
                         //Redirect user to welcome page
                         header("location: welcome.php");
+                    } else {
+                        echo '<div class="alert alert-danger" role="alert">Wrong Password</div>';
                     }
                 }
+            } else {
+                echo '<div class="alert alert-danger" role="alert">Invalid Username</div>';
             }
         }
     }
@@ -65,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>PHP login system!</title>
+    <title>Kaustubha Medtech</title>
 </head>
 
 <body>
@@ -87,7 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button> <br>
+                <a class="nav-link" href="register.php">New user? Register</a>
         </form>
 
 
